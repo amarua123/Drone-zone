@@ -18,7 +18,7 @@ public class Location implements Comparable<Location> {
     }
     @Override
     public String toString() {
-        if(name != ""){
+        if(name.equals("")){
             name = "("+name+")";
         }
         return "[" + x + ", " + y + "]" + name;
@@ -39,7 +39,6 @@ public class Location implements Comparable<Location> {
                 if(newX < 0 || newY < 0) continue;
                 if(newX >= row || newY >= col) continue;
                 Location neighbor = new Location(newX, newY, source);
-                String key = "" + newX + newY;
                 if(grid[newX][newY] == 0){
                     grid[newX][newY] = 1;
                     queue.offer(neighbor);
