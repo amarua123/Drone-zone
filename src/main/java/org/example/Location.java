@@ -6,10 +6,6 @@ public class Location implements Comparable<Location> {
     int x, y;
     Location next = null;
     String name = "";
-    Location(int x, int y){
-        this.x = x;
-        this.y = y;
-    }
     Location(int x, int y, Location next){
         this.x = x;
         this.y = y;
@@ -27,9 +23,10 @@ public class Location implements Comparable<Location> {
         }
         return "[" + x + ", " + y + "]" + name;
     }
-    public static Location bfs(List<Location> sources, Location target){
+    public static Location bfs(int [][]grid, List<Location> sources, Location target){
+        int row = grid.length;
+        int col = grid[0].length;
         Queue<Location> queue = new LinkedList<>();
-        Set<String> seen = new HashSet<>();
         for(Location loc: sources){
             queue.add(loc);
         }
@@ -37,10 +34,14 @@ public class Location implements Comparable<Location> {
         while(target.compareTo(queue.peek()) != 0){
             Location source = queue.poll();
             for(int[] dir: dirs){
-                Location neighbor = new Location(source.x+dir[0], source.y+dir[1], source);
-                String key = ""+neighbor.x+neighbor.y;
-                if(!seen.contains(key)){
-                    seen.add(key);
+                int newX = source.x+dir[0];
+                int newY = source.y+dir[1];
+                if(newX < 0 || newY < 0) continue;
+                if(newX >= row || newY >= col) continue;
+                Location neighbor = new Location(newX, newY, source);
+                String key = "" + newX + newY;
+                if(grid[newX][newY] == 0){
+                    grid[newX][newY] = 1;
                     queue.offer(neighbor);
                 }
             }

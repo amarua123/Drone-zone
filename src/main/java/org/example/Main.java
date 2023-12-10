@@ -5,17 +5,36 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
-        Location drone1 = new Location(4, 1, "drone1");
-        Location drone2 = new Location(5, 7, "drone2");
-        Location drone3 = new Location(2, 1, "drone3");
-        Location drone4 = new Location(7, 1, "drone4");
+        Scanner in = new Scanner(System.in);
+        System.out.println("The Grid will be X * Y");
+        System.out.print("Enter the no. of Rows: ");
+        int x = in.nextInt();
+        System.out.print("Enter the no. of Columns: ");
+        int y = in.nextInt();
+        int[][] grid = new int[x][y];
 
-        Location target = new Location(20, 14, "target");
+        List<Location> drones = new ArrayList<>();
+        for(int i = 0; i < 4; i++){
+            System.out.println("Enter the X, Y value of Drone " + (i+1));
+            System.out.print("X: ");
+            x = in.nextInt();
+            System.out.print("Y: ");
+            y = in.nextInt();
+            drones.add(new Location(x, y, "drone" + (i+1)));
+            grid[x][y] = 1;
+        }
+        System.out.println("Enter the X, Y value of the target: ");
+        System.out.print("X: ");
+        x = in.nextInt();
+        System.out.print("Y: ");
+        y = in.nextInt();
+        Location target = new Location(x, y, "target");
         List<String> path =
-                Location.getPath(Location.bfs(new ArrayList<>(Arrays.asList(drone1, drone2, drone3, drone4)), target));
+                Location.getPath(Location.bfs(grid, drones, target));
         System.out.println("The path from nearest drone to target is given below: ");
         for(String loc: path){
-            System.out.print(loc+" ");
+            System.out.print(loc+" -> ");
         }
+        System.out.print("Target Reached !!");
     }
 }
